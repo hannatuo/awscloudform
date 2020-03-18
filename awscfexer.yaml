@@ -5,6 +5,10 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       AccessControl: PublicRead
+  MyQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 1000
 Outputs:
   WebsiteURL:
     Value: !GetAtt
