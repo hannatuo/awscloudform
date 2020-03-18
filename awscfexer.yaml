@@ -50,9 +50,7 @@ Resources:
       QueueName: hannelinjono
 
 Outputs:
-  WebsiteURL:
-    Value: !GetAtt
-      - S3Bucket
-      - WebsiteURL
-    Description: URL for website hosted on S3
+  MyLoadBalancerDNSName:
+    Description: The DNSName of the load balancer
+    Value: !GetAtt MyLoadBalancer.DNSName
 
