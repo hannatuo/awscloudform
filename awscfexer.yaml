@@ -1,17 +1,40 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Academy CloudFormation Exercise
+
+Parameters:
+  LatestAmiId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+
 Resources:
+  MyEC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t2.micro
+      KeyName: HannaDemoKey
+      BlockDeviceMappings:
+        - DeviceName: /dev/sdm
+          Ebs:
+            VolumeType: io1
+            Iops: 200
+            DeleteOnTermination: false
+            VolumeSize: 20
+
   S3Bucket:
-    Type: AWS::S3::Bucket
+    Type: 'AWS::S3::Bucket'
     Properties:
       AccessControl: PublicRead
+
   MyQueue:
-    Type: AWS::SQS::Queue
+    Type: 'AWS::SQS::Queue'
     Properties:
-      VisibilityTimeout: 1000
+      QueueName: hannelinjono
+
 Outputs:
   WebsiteURL:
     Value: !GetAtt
       - S3Bucket
       - WebsiteURL
     Description: URL for website hosted on S3
+
